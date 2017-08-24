@@ -1,5 +1,4 @@
 # Imports
-> A little helper to list of possible unused packages installed on your Python Project
 
 __WARNING:__ Remove packages listed by this helper it's all uppon to you
 
@@ -17,3 +16,5 @@ After this, use the command below passing the path to project that'll be checked
 ```python
 python imports.py -o PATH_TO_PROJECT_FOLDER
 ```
+
+After this, I suggest the use of [pip-autoremove package](https://github.com/invl/pip-autoremove) to uninstall the wrong entries listed.
