@@ -17,8 +17,8 @@ After this, I suggest the use of [pip-autoremove package](https://github.com/inv
 
 Here a small example:
 
-![Input](https://raw.githubusercontent.com/joaopcanario/imports/master/media/input.png)
+![Input](https://github.com/joaopcanario/imports/blob/master/media/entry.png)
 
 the output:
 
-![Output](https://raw.githubusercontent.com/joaopcanario/imports/master/media/output.png)
+![Output](https://github.com/joaopcanario/imports/blob/master/media/output.png)
