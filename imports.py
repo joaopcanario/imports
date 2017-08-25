@@ -1,16 +1,16 @@
-from collections import defaultdict
+import dis
+import sys
 from pathlib import Path
 
-import sys
-import dis
 import pip
 import re
+from collections import defaultdict
 
 EXCLUDED_IMPORTS = ['pip', 'setuptools']
 
 
 def _list_installed_packages():
-    packages = ["{}".format(i.key) for i in pip.get_installed_distributions()]
+    packages = [f"{i.key}" for i in pip.get_installed_distributions()]
 
     return set(packages)
 
@@ -29,6 +29,7 @@ def _list_dependencies(packages_list):
 
     return with_dependencies, no_dependencies
 
+
 def _find_modules(python_file):
     with open(python_file, 'r') as s:
         statements = s.read()
@@ -41,6 +42,7 @@ def _find_modules(python_file):
             grouped[instr.opname].append(instr.argval.split('.')[0])
 
     return grouped['IMPORT_NAME']
+
 
 def _iter_modules(location):
     all_imports = []
@@ -66,16 +68,15 @@ def _load_requirements(requirements_location):
 
 
 if __name__ == '__main__':
-    if len (sys.argv) != 2:
+    if len(sys.argv) != 2:
         print("Usage: python imports.py <PATH_TO_PROJECT_FOLDER>")
         print("For more information, please see README")
         sys.exit(1)
 
+    path_dir = str(sys.argv[1])
 
-    pathdir = str(sys.argv[1])
-
-    requirements = _load_requirements(pathdir)
-    imported_modules = _iter_modules(pathdir)
+    requirements = _load_requirements(path_dir)
+    imported_modules = _iter_modules(path_dir)
     installed_packages = _list_installed_packages()
 
     imported_modules.update(EXCLUDED_IMPORTS)
@@ -86,17 +87,17 @@ if __name__ == '__main__':
 
     print(f'\n\nList of installed libraries (and your dependencies) that are a\
 \npotentially unused dependency that are added on requirements of \n\
-the project {pathdir}.\n')
+the project {path_dir}:\n')
 
     print('\tDependencies not being used:')
 
-    for u in unused_dependencies:
-        if with_dependencies.get(u):
-            print(f'\t  - {u}')
-            for d in with_dependencies.get(u):
-                print(f'\t\t - {d}')
+    for unused_dependency in unused_dependencies:
+        if with_dependencies.get(unused_dependency):
+            print(f'\t    - {unused_dependency}')
+            for dependency in with_dependencies.get(unused_dependency):
+                print(f'\t\t - {dependency}')
         else:
-            print(f'\t  - {u}')
+            print(f'\t    - {unused_dependency}')
 
     print("\nWARNING: Uninstall libraries it's at your own risk")
     print('\nREMINDER: After uninstall libraries, update the requirements.txt')
