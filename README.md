@@ -11,10 +11,14 @@ git clone https://github.com/joaopcanario/imports.git
 cd imports
 ```
 
-After this, use the command below passing the path to project that'll be checked and the helper will list all the possible packages that aren't used in your project:
+After this, with virtualenv of the project active, you can use the command below passing the path to project that'll be checked and the helper will list all the possible packages that aren't used in your project:
 
 ```python
-python imports.py -o PATH_TO_PROJECT_FOLDER
+python imports.py PATH_TO_PROJECT_FOLDER
 ```
+
+Here a small example:
+
+
 
 After this, I suggest the use of [pip-autoremove package](https://github.com/invl/pip-autoremove) to uninstall the wrong entries listed.
