@@ -12,6 +12,9 @@ Download `imports.py` and use the command below passing the path to the root fol
 python imports.py PATH_TO_PROJECT_FOLDER
 ```
 
+After this, I suggest the use of [pip-autoremove package](https://github.com/invl/pip-autoremove) to uninstall the wrong entries listed.
+
+
 Here a small example:
 
 ![Input](https://raw.githubusercontent.com/joaopcanario/imports/master/media/input.png)
@@ -19,6 +22,3 @@ Here a small example:
 the output:
 
 ![Output](https://raw.githubusercontent.com/joaopcanario/imports/master/media/output.png)
-
-
-After this, I suggest the use of [pip-autoremove package](https://github.com/invl/pip-autoremove) to uninstall the wrong entries listed.
