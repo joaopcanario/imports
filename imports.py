@@ -10,7 +10,7 @@ EXCLUDED_IMPORTS = ['pip', 'setuptools']
 
 
 def _list_installed_packages():
-    packages = ["{}".format(i.key) for i in pip.get_installed_distributions()]
+    packages = [f"{i.key}" for i in pip.get_installed_distributions()]
 
     return set(packages)
 
@@ -73,10 +73,10 @@ if __name__ == '__main__':
         print("For more information, please see README")
         sys.exit(1)
 
-    pathdir = str(sys.argv[1])
+    path_dir = str(sys.argv[1])
 
-    requirements = _load_requirements(pathdir)
-    imported_modules = _iter_modules(pathdir)
+    requirements = _load_requirements(path_dir)
+    imported_modules = _iter_modules(path_dir)
     installed_packages = _list_installed_packages()
 
     imported_modules.update(EXCLUDED_IMPORTS)
@@ -87,15 +87,15 @@ if __name__ == '__main__':
 
     print(f'\n\nList of installed libraries (and your dependencies) that are a\
 \npotentially unused dependency that are added on requirements of \n\
-the project {pathdir}:\n')
+the project {path_dir}:\n')
 
-    for u in unused_dependencies:
-        if with_dependencies.get(u):
-            print(f'\t - {u}')
-            for d in with_dependencies.get(u):
-                print(f'\t\t - {d}')
+    for unused_dependency in unused_dependencies:
+        if with_dependencies.get(unused_dependency):
+            print(f'\t - {unused_dependency}')
+            for dependency in with_dependencies.get(unused_dependency):
+                print(f'\t\t - {dependency}')
         else:
-            print(f'\t - {u}')
+            print(f'\t - {unused_dependency}')
 
     print("\nWARNING: Remove listed libraries or your dependencies it's at \
 your own risk")
