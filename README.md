@@ -4,6 +4,8 @@ __WARNING:__ Remove packages listed by this helper it's at your own risk
 
 ## Usage
 
+> NOTE: Before start, it's expected that there is a `requirements.txt` file on the project root folder and your virtualenv is active as well.
+
 Download `imports.py` and, with virtualenv of your project active, use the command below passing the path to the root folder of project that'll be checked. After that, the helper will list all the possible packages that aren't being used in your project:
 
 ```python
