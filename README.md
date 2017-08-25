@@ -19,11 +19,11 @@ python imports.py PATH_TO_PROJECT_FOLDER
 
 Here a small example:
 
-![Input](https://raw.githubusercontent.com/joaopcanario/imports/master/media/input.png=129x19)
+![Input](https://raw.githubusercontent.com/joaopcanario/imports/master/media/input.png)
 
 the output:
 
-![Output](https://raw.githubusercontent.com/joaopcanario/imports/master/media/output.png=129x152)
+![Output](https://raw.githubusercontent.com/joaopcanario/imports/master/media/output.png)
 
 
 After this, I suggest the use of [pip-autoremove package](https://github.com/invl/pip-autoremove) to uninstall the wrong entries listed.
