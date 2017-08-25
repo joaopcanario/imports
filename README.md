@@ -4,7 +4,7 @@ __WARNING:__ Remove packages listed by this helper it's at your own risk
 
 ## Usage
 
-Download `imports.py` to your project folder and, with virtualenv active, use the command below passing the path to project that'll be checked. After that, the helper will list all the possible packages that aren't being used in your project:
+Download `imports.py` and, with virtualenv of your project active, use the command below passing the path to the root folder of project that'll be checked. After that, the helper will list all the possible packages that aren't being used in your project:
 
 ```python
 python imports.py PATH_TO_PROJECT_FOLDER
