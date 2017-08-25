@@ -86,15 +86,17 @@ if __name__ == '__main__':
 
     print(f'\n\nList of installed libraries (and your dependencies) that are a\
 \npotentially unused dependency that are added on requirements of \n\
-the project {pathdir}:\n')
+the project {pathdir}.\n')
+
+    print('\tDependencies not being used:')
 
     for u in unused_dependencies:
         if with_dependencies.get(u):
-            print(f'\t - {u}')
+            print(f'\t  - {u}')
             for d in with_dependencies.get(u):
                 print(f'\t\t - {d}')
         else:
-            print(f'\t - {u}')
+            print(f'\t  - {u}')
 
-    print("\nWARNING: Remove listed libraries or your dependencies it's at \
-your own risk")
+    print("\nWARNING: Uninstall libraries it's at your own risk")
+    print('\nREMINDER: After uninstall libraries, update the requirements.txt')
