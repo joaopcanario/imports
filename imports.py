@@ -1,10 +1,10 @@
-from collections import defaultdict
+import dis
+import sys
 from pathlib import Path
 
-import sys
-import dis
 import pip
 import re
+from collections import defaultdict
 
 EXCLUDED_IMPORTS = ['pip', 'setuptools']
 
@@ -29,6 +29,7 @@ def _list_dependencies(packages_list):
 
     return with_dependencies, no_dependencies
 
+
 def _find_modules(python_file):
     with open(python_file, 'r') as s:
         statements = s.read()
@@ -41,6 +42,7 @@ def _find_modules(python_file):
             grouped[instr.opname].append(instr.argval.split('.')[0])
 
     return grouped['IMPORT_NAME']
+
 
 def _iter_modules(location):
     all_imports = []
@@ -66,11 +68,10 @@ def _load_requirements(requirements_location):
 
 
 if __name__ == '__main__':
-    if len (sys.argv) != 2:
+    if len(sys.argv) != 2:
         print("Usage: python imports.py <PATH_TO_PROJECT_FOLDER>")
         print("For more information, please see README")
         sys.exit(1)
-
 
     pathdir = str(sys.argv[1])
 
