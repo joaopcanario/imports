@@ -74,9 +74,6 @@ if __name__ == '__main__':
 
     pathdir = str(sys.argv[1])
 
-    if pathdir == 'demo':
-        pathdir = 'tests/demo'
-
     requirements = _load_requirements(pathdir)
     imported_modules = _iter_modules(pathdir)
     installed_packages = _list_installed_packages()
