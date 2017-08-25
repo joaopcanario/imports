@@ -1,5 +1,4 @@
 from collections import defaultdict
-from pprint import pprint
 from pathlib import Path
 
 import sys
@@ -88,9 +87,9 @@ if __name__ == '__main__':
     with_dependencies, _ = _list_dependencies(diff)
     unused_dependencies = sorted([d for d in diff if d in requirements])
 
-    print("\n\nWARNING: Remove listed libraries it's all uppon to you")
-    print(f'\nList of installed libraries (and your dependencies) that are a \
-potentially unused dependency of the project {pathdir}:\n')
+    print(f'\n\nList of installed libraries (and your dependencies) that are a\
+\npotentially unused dependency that are added on requirements of \n\
+the project {pathdir}:\n')
 
     for u in unused_dependencies:
         if with_dependencies.get(u):
@@ -99,3 +98,6 @@ potentially unused dependency of the project {pathdir}:\n')
                 print(f'\t\t - {d}')
         else:
             print(f'\t - {u}')
+
+    print("\nWARNING: Remove listed libraries or your dependencies it's at \
+your own risk")
