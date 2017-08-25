@@ -4,14 +4,7 @@ __WARNING:__ Remove packages listed by this helper it's at your own risk
 
 ## Usage
 
-First, clone this repo and go the dowloaded folder:
-
-```console
-git clone https://github.com/joaopcanario/imports.git
-cd imports
-```
-
-After this, with virtualenv of the project active, you can use the command below passing the path to project that'll be checked and the helper will list all the possible packages that aren't used in your project:
+Download `imports.py` to your project folder and, with virtualenv active, use the command below passing the path to project that'll be checked. After that, the helper will list all the possible packages that aren't being used in your project:
 
 ```python
 python imports.py PATH_TO_PROJECT_FOLDER
