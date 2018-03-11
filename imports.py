@@ -1,3 +1,4 @@
+import os
 import dis
 import sys
 from pathlib import Path
@@ -6,7 +7,15 @@ import pip
 import re
 from collections import defaultdict
 
-EXCLUDED_IMPORTS = ['pip', 'setuptools']
+
+def _load_local_env(env_path='.env'):
+    env_content = dict()
+
+    with open(env_path, 'r') as env_file:
+        content = [x.strip() for x in env_file.readlines()]
+        env_content = dict(line.split('=') for line in content)
+
+    return env_content
 
 
 def _list_installed_packages():
@@ -16,7 +25,6 @@ def _list_installed_packages():
 
 
 def _list_dependencies(packages_list):
-
     with_dependencies = {}
     no_dependencies = []
     for package in sorted(packages_list):
@@ -67,27 +75,36 @@ def _load_requirements(requirements_location):
     return requirements
 
 
+
+def _usage():
+    print("Usage: python imports.py <PATH_TO_PROJECT_FOLDER>")
+    print("For more information, please see README file.")
+    sys.exit(1)
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print("Usage: python imports.py <PATH_TO_PROJECT_FOLDER>")
-        print("For more information, please see README")
-        sys.exit(1)
+        _usage()
+    else:
+        path_dir = str(sys.argv[1])
 
-    path_dir = str(sys.argv[1])
+    if path_dir == '--help':
+        _usage()
 
     requirements = _load_requirements(path_dir)
     imported_modules = _iter_modules(path_dir)
     installed_packages = _list_installed_packages()
 
-    imported_modules.update(EXCLUDED_IMPORTS)
+    env_config = _load_local_env()
+
+    imported_modules.update(env_config.get('EXCLUDED_IMPORTS'))
 
     diff = {lib for lib in installed_packages if lib not in imported_modules}
     with_dependencies, _ = _list_dependencies(diff)
     unused_dependencies = sorted([d for d in diff if d in requirements])
 
-    print(f'\n\nList of installed libraries (and your dependencies) that are a\
-\npotentially unused dependency that are added on requirements of \n\
-the project {path_dir}:\n')
+    print(f'\n\nList of installed libraries (and your dependencies) that are a'
+           '\npotentially unused dependency that are added on requirements of '
+           '\nthe project {path_dir}:\n')
 
     print('\tDependencies not being used:')
 
