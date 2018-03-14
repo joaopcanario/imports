@@ -75,46 +75,44 @@ def _load_requirements(requirements_location):
     return requirements
 
 
-
 def _usage():
     print("Usage: python imports.py <PATH_TO_PROJECT_FOLDER>")
     print("For more information, please see README file.")
     sys.exit(1)
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        _usage()
-    else:
-        path_dir = str(sys.argv[1])
 
-    if path_dir == '--help':
-        _usage()
-
+def check(path_dir):
     requirements = _load_requirements(path_dir)
     imported_modules = _iter_modules(path_dir)
     installed_packages = _list_installed_packages()
 
-    env_config = _load_local_env()
+    config = _load_local_env()
 
-    imported_modules.update(env_config.get('EXCLUDED_IMPORTS'))
+    imported_modules.update(config['EXCLUDED_IMPORTS'])
 
     diff = {lib for lib in installed_packages if lib not in imported_modules}
     with_dependencies, _ = _list_dependencies(diff)
     unused_dependencies = sorted([d for d in diff if d in requirements])
 
-    print(f'\n\nList of installed libraries (and your dependencies) that are a'
-           '\npotentially unused dependency that are added on requirements of '
-           '\nthe project {path_dir}:\n')
-
-    print('\tDependencies not being used:')
+    print(f'\n\nList of installed libs and your dependencies added on'
+           '\nproject requirements that are not being used:\n')
 
     for unused_dependency in unused_dependencies:
         if with_dependencies.get(unused_dependency):
-            print(f'\t    - {unused_dependency}')
+            print(f'    - {unused_dependency}')
             for dependency in with_dependencies.get(unused_dependency):
-                print(f'\t\t - {dependency}')
+                print(f'\t - {dependency}')
         else:
-            print(f'\t    - {unused_dependency}')
+            print(f'    - {unused_dependency}')
 
     print("\nWARNING: Uninstall libraries it's at your own risk")
     print('\nREMINDER: After uninstall libraries, update the requirements.txt')
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2 or str(sys.argv[1]) == '--help':
+        _usage()
+    else:
+        path_dir = str(sys.argv[1])
+
+    check(path_dir)
