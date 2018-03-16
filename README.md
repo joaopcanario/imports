@@ -1,4 +1,5 @@
 # Imports
+> A helper tool to identify the unused installed packages that are listed on requirements.txt
 
 __WARNING:__ Remove packages listed by this helper it's at your own risk
 
