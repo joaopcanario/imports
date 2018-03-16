@@ -1,4 +1,3 @@
-import os
 import dis
 import sys
 from pathlib import Path
@@ -94,8 +93,8 @@ def check(path_dir):
     with_dependencies, _ = _list_dependencies(diff)
     unused_dependencies = sorted([d for d in diff if d in requirements])
 
-    print(f'\n\nList of installed libs and your dependencies added on project'
-           '\nrequirements that are not being used:\n')
+    print('\n\nList of installed libs and your dependencies added on project'
+          '\nrequirements that are not being used:\n')
 
     for unused_dependency in unused_dependencies:
         if with_dependencies.get(unused_dependency):
