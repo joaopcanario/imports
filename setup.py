@@ -32,6 +32,7 @@ setup(
     ],
     description=("A helper tool to identify the unused installed packages "
                  "that are listed on requirements.txt"),
+
     entry_points={
         'console_scripts': [
             'imports=imports.cli:main',
