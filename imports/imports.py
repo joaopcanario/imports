@@ -75,7 +75,7 @@ def _load_requirements(requirements_location):
 
 
 def _usage():
-    print("Usage: python imports.py <PATH_TO_PROJECT_FOLDER>")
+    print("Usage: imports <PATH_TO_PROJECT_FOLDER>")
     print("For more information, please see README file.")
     sys.exit(1)
 
