@@ -1,24 +1,34 @@
-import dis
-import sys
-from pathlib import Path
-
-import pip
-import re
 from collections import defaultdict
 
+import click
+import dis
+import functools
+import glob
+import operator
+import os
+import pip
+import re
 
-def _load_local_env(env_path='.env'):
-    env_content = dict()
+
+'''Main module'''
+
+
+def _excluded_imports(env_path='.env'):
+    out = ['pip', 'setuptools']
+
+    if not os.path.isfile(env_path):
+        return out
 
     with open(env_path, 'r') as env_file:
-        content = [x.strip() for x in env_file.readlines()]
-        env_content = dict(line.split('=') for line in content)
+        env = [x.strip() for x in env_file.readlines()]
+        packages = [ln.split('=')[1].split(',') for ln in env]
+        out = out + functools.reduce(operator.concat, packages)
 
-    return env_content
+    return out
 
 
 def _list_installed_packages():
-    packages = [f"{i.key}" for i in pip.get_installed_distributions()]
+    packages = ["{}".format(i.key) for i in pip.get_installed_distributions()]
 
     return set(packages)
 
@@ -54,65 +64,55 @@ def _find_modules(python_file):
 def _iter_modules(location):
     all_imports = []
 
-    root_dir = Path(location)
+    root_dir = os.path.join(location, '**/*.py')
 
-    for python_file in root_dir.glob('**/*.py'):
+    for python_file in glob.iglob(root_dir, recursive=True):
         all_imports += _find_modules(str(python_file))
 
     return set(all_imports)
 
 
-def _load_requirements(requirements_location):
+def _load_requirements(requirements_name, path_dir):
 
-    root_dir = Path(requirements_location) / 'requirements.txt'
+    root_dir = os.path.join(path_dir, requirements_name)
 
     requirements = []
-    with open(str(root_dir), 'r') as f:
+    with open(root_dir, 'r') as f:
         for line in f:
             requirements.append(re.match(r'^(\w+(-\w+)*)', line).group(0))
 
     return requirements
 
 
-def _usage():
-    print("Usage: imports <PATH_TO_PROJECT_FOLDER>")
-    print("For more information, please see README file.")
-    sys.exit(1)
+# def _usage():
+#     print("Usage: imports <PATH_TO_PROJECT_FOLDER>")
+#     print("For more information, please see README file.")
+#     sys.exit(1)
 
 
-def check(path_dir):
-    requirements = _load_requirements(path_dir)
+def check(requirements_name='requirements.txt', path_dir='.'):
+    '''Look for unused packages listed on project requirements'''
+    requirements = _load_requirements(requirements_name, path_dir)
     imported_modules = _iter_modules(path_dir)
     installed_packages = _list_installed_packages()
 
-    config = _load_local_env()
-
-    imported_modules.update(config['EXCLUDED_IMPORTS'])
+    imported_modules.update(_excluded_imports())
 
     diff = {lib for lib in installed_packages if lib not in imported_modules}
     with_dependencies, _ = _list_dependencies(diff)
     unused_dependencies = sorted([d for d in diff if d in requirements])
 
-    print('\n\nList of installed libs and your dependencies added on project'
-          '\nrequirements that are not being used:\n')
+    click.echo('\n\nList of installed libs and your dependencies added on '
+               'project\nrequirements that are not being used:\n')
 
     for unused_dependency in unused_dependencies:
         if with_dependencies.get(unused_dependency):
-            print(f'    - {unused_dependency}')
+            click.echo('    - {}'.format(unused_dependency))
             for dependency in with_dependencies.get(unused_dependency):
-                print(f'\t - {dependency}')
+                click.echo('\t - {}'.format(dependency))
         else:
-            print(f'    - {unused_dependency}')
+            click.echo('    - {}'.format(unused_dependency))
 
-    print("\nWARNING: Uninstall libs it's at your own risk!")
-    print('\nREMINDER: After uninstall libs, update your requirements file.'
-          '\nFor that, use the command: `pip freeze > requirements.txt`')
-
-
-if __name__ == '__main__':
-    if len(sys.argv) != 2 or str(sys.argv[1]) == '--help':
-        _usage()
-    else:
-        path_dir = str(sys.argv[1])
-
-    check(path_dir)
+    click.echo("\nWARNING: Uninstall libs it's at your own risk!")
+    click.echo('\nREMINDER: After uninstall libs, update your requirements '
+               'file.\nUse the `pip freeze > requirements.txt` command.')

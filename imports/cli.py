@@ -4,14 +4,17 @@
 import sys
 import click
 
+import imports
+
 
 @click.command()
-def main(args=None):
+@click.argument('path_dir')
+def main(path_dir):
     """Console script for imports."""
     click.echo("Replace this message by putting your code into "
                "imports.cli.main")
     click.echo("See click documentation at http://click.pocoo.org/")
-    return 0
+    return imports.check(path_dir)
 
 
 if __name__ == "__main__":

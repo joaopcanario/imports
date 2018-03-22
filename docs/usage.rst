@@ -4,4 +4,6 @@ Usage
 
 To use Imports in a project::
 
-    import imports
+    from imports import imports as imp
+
+    imp.check('path_to_project_folder')
