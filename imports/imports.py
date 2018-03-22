@@ -102,9 +102,6 @@ def check(requirements_name='requirements.txt', path_dir='.'):
     with_dependencies, _ = _list_dependencies(diff)
     unused_dependencies = sorted([d for d in diff if d in requirements])
 
-    click.echo('\n\nList of installed libs and your dependencies added on '
-               'project\nrequirements that are not being used:\n')
-
     for unused_dependency in unused_dependencies:
         if with_dependencies.get(unused_dependency):
             click.echo('    - {}'.format(unused_dependency))
@@ -112,7 +109,3 @@ def check(requirements_name='requirements.txt', path_dir='.'):
                 click.echo('\t - {}'.format(dependency))
         else:
             click.echo('    - {}'.format(unused_dependency))
-
-    click.echo("\nWARNING: Uninstall libs it's at your own risk!")
-    click.echo('\nREMINDER: After uninstall libs, update your requirements '
-               'file.\nUse the `pip freeze > requirements.txt` command.')

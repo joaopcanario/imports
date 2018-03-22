@@ -4,17 +4,21 @@
 import sys
 import click
 
-import imports
+from imports.imports import check
 
 
 @click.command()
 @click.argument('path_dir')
-def main(path_dir):
+@click.argument('requirements_name', default='requirements.txt')
+def main(path_dir, requirements_name):
     """Console script for imports."""
-    click.echo("Replace this message by putting your code into "
-               "imports.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
-    return imports.check(path_dir)
+    click.echo('\n\nList of installed libs and your dependencies added on '
+               'project\nrequirements that are not being used:\n')
+    check(requirements_name, path_dir)
+
+    click.echo("\nWARNING: Uninstall libs it's at your own risk!")
+    click.echo('\nREMINDER: After uninstall libs, update your requirements '
+               'file.\nUse the `pip freeze > requirements.txt` command.')
 
 
 if __name__ == "__main__":
