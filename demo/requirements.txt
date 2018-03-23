@@ -1,6 +1,6 @@
 numpy==1.14.2
 pandas==0.22.0
-ipython
+ipython==6.2.1
 coreapi
 jinja2
 requests
