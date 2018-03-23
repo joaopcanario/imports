@@ -4,7 +4,7 @@ ipython==6.2.1
 coreapi==2.3.3
 jinja2==2.10
 requests==2.18.4
-werkzeug
+werkzeug==0.14.1
 whitenoise
 django
 psycopg2
