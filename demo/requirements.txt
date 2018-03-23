@@ -12,7 +12,7 @@ sqlalchemy==1.2.5
 dj-database-url==0.5.0
 codecov==2.0.15
 flake8==3.5.0
-isort
+isort==4.3.4
 mypy
 pytest
 pytest-cov
