@@ -6,6 +6,5 @@ tox
 coverage
 Sphinx
 twine
-
 pytest
 pytest-runner

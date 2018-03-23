@@ -63,7 +63,7 @@ def _find_modules(python_file):
 def _iter_modules(location):
     all_imports = []
 
-    root_dir = os.path.join(location, '**/*.py')
+    root_dir = os.path.join(location, '**/[!.]*.py')
 
     for python_file in glob.iglob(root_dir, recursive=True):
         all_imports += _find_modules(str(python_file))
@@ -75,10 +75,12 @@ def _load_requirements(requirements_name, path_dir):
 
     root_dir = os.path.join(path_dir, requirements_name)
 
-    requirements = []
-    with open(root_dir, 'r') as f:
-        for line in f:
-            requirements.append(re.match(r'^(\w+(-\w+)*)', line).group(0))
+    try:
+        with open(root_dir, 'r') as f:
+            requirements = [re.match(r'^(\w+(-\w+)*)', line).group(0)
+                            for line in f]
+    except FileNotFoundError:
+        requirements = []
 
     return requirements
 
@@ -89,7 +91,7 @@ def _load_requirements(requirements_name, path_dir):
 #     sys.exit(1)
 
 
-def check(requirements_name='requirements.txt', path_dir='.'):
+def check(path_dir, requirements_name='requirements.txt'):
     '''Look for unused packages listed on project requirements'''
     requirements = _load_requirements(requirements_name, path_dir)
     imported_modules = _iter_modules(path_dir)
@@ -108,5 +110,3 @@ def check(requirements_name='requirements.txt', path_dir='.'):
                 print('\t - {}'.format(dependency))
         else:
             print('    - {}'.format(unused_dependency))
-
-    return None

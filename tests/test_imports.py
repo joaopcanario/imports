@@ -30,7 +30,7 @@ def test_content(response):
 def test_command_line_interface():
     """Test the CLI."""
     runner = CliRunner()
-    result = runner.invoke(cli.main, ['demo'])
+    result = runner.invoke(cli.main, ['.', 'requirements-dev.txt'])
     assert result.exit_code == 0
 
     help_result = runner.invoke(cli.main, ['--help'])

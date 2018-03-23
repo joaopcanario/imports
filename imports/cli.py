@@ -19,7 +19,7 @@ def main(path_dir, requirements_name):
     click.echo('\n\nList of installed libs and your dependencies added on '
                'project\nrequirements that are not being used:\n')
 
-    check(requirements_name, path_dir)
+    check(path_dir, requirements_name)
 
 
 if __name__ == "__main__":
