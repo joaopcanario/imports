@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-import click
 import dis
 import functools
 import glob
@@ -104,8 +103,10 @@ def check(requirements_name='requirements.txt', path_dir='.'):
 
     for unused_dependency in unused_dependencies:
         if with_dependencies.get(unused_dependency):
-            click.echo('    - {}'.format(unused_dependency))
+            print('    - {}'.format(unused_dependency))
             for dependency in with_dependencies.get(unused_dependency):
-                click.echo('\t - {}'.format(dependency))
+                print('\t - {}'.format(dependency))
         else:
-            click.echo('    - {}'.format(unused_dependency))
+            print('    - {}'.format(unused_dependency))
+
+    return None
