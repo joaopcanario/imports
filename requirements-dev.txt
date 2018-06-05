@@ -5,6 +5,6 @@ flake8
 tox
 coverage
 Sphinx
-twine
+twine==1.11.0
 pytest
 pytest-runner
