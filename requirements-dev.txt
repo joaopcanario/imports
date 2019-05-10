@@ -1,5 +1,5 @@
 bumpversion
-wheel
+wheel==0.33.3
 watchdog
 flake8
 tox
