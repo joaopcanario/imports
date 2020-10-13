@@ -4,7 +4,7 @@ watchdog
 flake8==3.8.4
 tox
 coverage==5.3
-Sphinx
+Sphinx==3.2.1
 twine
 pytest==6.1.1
 pytest-runner
